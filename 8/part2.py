@@ -11,50 +11,34 @@ for index_y, line in enumerate(grid_original):
     # Check left to right
     for index_x , tree in enumerate(line):
         score_left = 0
-        found_any = False
-        for tree_left in line[:index_x]:
-            if tree > tree_left:
-                found_any = True
-                score_left += 1
-            else:
+        for tree_left in reversed(line[:index_x]):
+            score_left += 1
+            if tree <= tree_left:
                 break
-        if found_any:
-            counted_scores[index_y][index_x] *= score_left
+        counted_scores[index_y][index_x] *= score_left
         
         score_right = 0
-        found_any = False
         for tree_right in line[index_x+1:]:
-            if tree > tree_right:
-                found_any = True
-                score_left += 1
-            else:
+            score_right += 1
+            if tree <= tree_right:
                 break
-        if found_any:
-            counted_scores[index_y][index_x] *= score_right
+        counted_scores[index_y][index_x] *= score_right
 
 for index_y, line in enumerate(grid_transposed):   
     for index_x , tree in enumerate(line):
         score_left = 0
-        found_any = False
-        for tree_left in line[:index_x]:
-            if tree > tree_left:
-                found_any = True
-                score_left += 1
-            else:
+        for tree_left in reversed(line[:index_x]):
+            score_left += 1
+            if tree <= tree_left:
                 break
-        if found_any:
-            counted_scores[index_x][index_y] *= score_left
+        counted_scores[index_x][index_y] *= score_left
         
         score_right = 0
-        found_any = False
         for tree_right in line[index_x+1:]:
-            if tree > tree_right:
-                found_any = True
-                score_left += 1
-            else:
+            score_right += 1
+            if tree <= tree_right:
                 break
-        if found_any:
-            counted_scores[index_x][index_y] *= score_right
+        counted_scores[index_x][index_y] *= score_right
 
 print(max(counted_scores.flatten()))
     
