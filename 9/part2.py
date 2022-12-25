@@ -31,7 +31,7 @@ def move_head(direction : str , amount : int):
     if tuple(rope[-1]) not in visited:
         visited.append(tuple(rope[-1]))
         
-    move_head(direction, amount-1)
+    move_head(direction, amount-1) # Unnassary recursion ftw :D
     
 def follow_node(node: int, follower :int):
     global rope
@@ -55,7 +55,7 @@ def follow_node(node: int, follower :int):
         y_modifier = abs(force_x_corrected) * copysign(1,force_y) 
         x_modifier = abs(force_y_corrected) * copysign(1,force_x)
     
-    # Could be combined with clever maths, but this is easier to read
+    # Could be combined with clever maths, but I can't be bothered
     
     if abs(force_y_corrected + y_modifier)!= 0:  
         rope[follower][0] += copysign(1,force_y_corrected + y_modifier)

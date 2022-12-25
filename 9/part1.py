@@ -35,7 +35,7 @@ def do_instruction(direction : str , amount : int):
     #             print(".", end="")
     #     print()
     # print()
-    do_instruction(direction, amount-1)
+    do_instruction(direction, amount-1) # Unnassary recursion ftw :D
     
 def move_tail():
     global head
