@@ -1,4 +1,7 @@
 import pathlib
+from datetime import datetime
+start = datetime.now()
+
 lines = pathlib.Path("15/input.txt").read_text().splitlines()
 
 lines = [line.split(":") for line in lines]
@@ -51,6 +54,8 @@ for current_y in range(4000000):
         for index in range(1,len(covered_x)):
             if covered_x[index-1][1]+1 < covered_x[index][0]:
                 print(f"\nFOUND IT: {current_y + 4000000 * (covered_x[index-1][1]+1)}")
+                end = datetime.now()
+                print(f"Took: {(end-start).total_seconds()}s")
                 exit()
                 
     if current_y % 10000 == 0:
