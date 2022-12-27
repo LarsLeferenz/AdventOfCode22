@@ -1,4 +1,4 @@
-# It somehow works in ~40s :D I'm not touching it again
+# It somehow works in ~20s :D I'm not touching it again
 
 from collections import deque
 import pathlib
@@ -13,7 +13,6 @@ graph = {}
 flow_rates = {}
 
 for line in lines:
-    
     valve = line.split("has")[0][5:].strip()
     
     flow_rate = int(line.split("rate=")[1].split(";")[0])
@@ -85,10 +84,7 @@ def best_pot_left(time_left : int, potential : list) -> int:
 
 best_score = 0
 
-def process_asignment(args):
-        
-        assignment = args[0]
-        uneven_factor = args[1]
+def process_asignment(assignment):
         
         my_valves = []
         elefants_valves = []
@@ -99,14 +95,7 @@ def process_asignment(args):
             else:
                 elefants_valves.append(key)
         
-        if len(my_valves) <= len(elefants_valves)//uneven_factor:
-            return 0
-        if len(elefants_valves) <= len(my_valves)//uneven_factor:
-            return 0
-        
         my_best_score = check_permuations(my_valves)
-        
-        
         elefant_best_score = check_permuations(elefants_valves)
         
         return my_best_score + elefant_best_score
@@ -117,9 +106,11 @@ def check_distribution(uneven_factor):
     
     pool = Pool()
     
-    assignments = zip(range(binary_reps[-1]), itertools.repeat(uneven_factor))
+    bounds = [len(binary_reps)//2//uneven_factor, int(len(binary_reps)//2*uneven_factor)]
     
-    results = list(tqdm(pool.imap(process_asignment, assignments), total=binary_reps[-1]))
+    assignments_bin = [i for i in range(binary_reps[-1]) if bounds[0] <= i.bit_count() <= bounds[1]]
+    
+    results = list(tqdm(pool.imap(process_asignment, assignments_bin), total=len(assignments_bin)))
     
     pool.close()
     pool.join()
@@ -129,7 +120,7 @@ def check_distribution(uneven_factor):
 if __name__ == "__main__":
 
     print("Brute forcing...")
-    check_distribution(1.2)
+    check_distribution(1)
 
     end = datetime.now()
     diff = end - start
